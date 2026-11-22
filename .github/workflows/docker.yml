@@ -30,7 +30,7 @@ jobs:
           context: .
           file: docker/Dockerfile
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/douyin-tiktok-download-api:latest
+          tags: ghcr.io/${{ github.repository_owner | lower }}/douyin-tiktok-download-api:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -42,5 +42,5 @@ jobs:
             -e DTK_BIND_HOST=0.0.0.0 \
             -e DTK_BIND_PORT=8000 \
             -e SECURITY_REQUEST_PROXY=public \
-            ghcr.io/${{ github.repository_owner }}/douyin-tiktok-download-api:latest \
+            ghcr.io/${{ github.repository_owner | lower }}/douyin-tiktok-download-api:latest \
             /app/.venv/bin/python -m dtk migrate
