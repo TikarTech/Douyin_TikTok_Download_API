@@ -43,6 +43,5 @@ jobs:
         run: |
           docker run --rm \
             -e DTK_DATABASE_URL="${{ secrets.DTK_DATABASE_URL }}" \
-            -e DTK_SECRET_KEY="${{ secrets.DTK_SECRET_KEY }}" \
             ghcr.io/${{ steps.vars.outputs.owner_lc }}/douyin-tiktok-download-api:latest \
-            alembic upgrade head --sql > /tmp/migration.sql && sed -i '/add_retention_policy/d' /tmp/migration.sql && psql "${DTK_DATABASE_URL}" -f /tmp/migration.sql
+            /app/.venv/bin/alembic upgrade head --sql > /tmp/migration.sql && sed -i '/add_retention_policy/d' /tmp/migration.sql && psql "${DTK_DATABASE_URL}" -f /tmp/migration.sql
