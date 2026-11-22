@@ -45,4 +45,4 @@ jobs:
             --entrypoint "" \
             -e DTK_DATABASE_URL="${{ secrets.DTK_DATABASE_URL }}" \
             ghcr.io/${{ steps.vars.outputs.owner_lc }}/douyin-tiktok-download-api:latest \
-            python -m alembic upgrade head --sql > /tmp/migration.sql && sed -i '/add_retention_policy/d' /tmp/migration.sql && psql "${DTK_DATABASE_URL}" -f /tmp/migration.sql
+            sh -c "apt-get update && apt-get install -y postgresql-client && python -m alembic upgrade head --sql > /tmp/migration.sql && sed -i '/add_retention_policy/d' /tmp/migration.sql && psql \"${DTK_DATABASE_URL}\" -f /tmp/migration.sql"
