@@ -48,4 +48,4 @@ jobs:
             -e DTK_BIND_PORT=8000 \
             -e SECURITY_REQUEST_PROXY=public \
             ghcr.io/${{ steps.vars.outputs.owner_lc }}/douyin-tiktok-download-api:latest \
-            /app/.venv/bin/python -m dtk migrate
+            migrate
