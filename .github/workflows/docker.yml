@@ -24,13 +24,18 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Prepare lowercase owner
+        id: vars
+        run: |
+          echo "owner_lc=$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
+
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
           context: .
           file: docker/Dockerfile
           push: true
-          tags: ghcr.io/${{ lower(github.repository_owner) }}/douyin-tiktok-download-api:latest
+          tags: ghcr.io/${{ steps.vars.outputs.owner_lc }}/douyin-tiktok-download-api:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -42,5 +47,5 @@ jobs:
             -e DTK_BIND_HOST=0.0.0.0 \
             -e DTK_BIND_PORT=8000 \
             -e SECURITY_REQUEST_PROXY=public \
-            ghcr.io/${{ lower(github.repository_owner) }}/douyin-tiktok-download-api:latest \
+            ghcr.io/${{ steps.vars.outputs.owner_lc }}/douyin-tiktok-download-api:latest \
             /app/.venv/bin/python -m dtk migrate
